@@ -47,7 +47,7 @@ check_realmeui_ver()
         exit 1
     fi
     log "Detected realmeUI Version: ${RUI_VER}"
-    log "Target file: ${FEATURE_PATH}"
+    log "Target file: ${FEATURE_PATH} ${FEATURE@_PATH}"
 }
 
 prepare_feature_list() 
@@ -56,12 +56,16 @@ prepare_feature_list()
     if [[ -e "$FEATURE_PATH" || -e "$FEATURE2_PATH" ]]; then
         if [[ -e "$FEATURE_PATH" ]]; then
             cp $FEATURE_PATH $TEMP_PATH
+            log "Target File 1 Copied"
         fi
         if [[ -e "$FEATURE2_PATH" ]]; then
             cp $FEATURE2_PATH $TEMP2_PATH
+            log "Target File 2 Copied"
+        else
+           log "${FEATURE2_PATH} not found"
         fi
     else
-        log "${FEATURE_PATH} or ${FEATURE2_PATH} do not exist, exiting!"
+        log "${FEATURE_PATH} does not exist, exiting!"
         exit 1
     fi
 }
@@ -111,6 +115,8 @@ setup_mount()
     # Now, bind mount the resulting file to the original location
     log "Mounting ${TEMP_PATH} to ${FEATURE_PATH}"
     mount --bind $TEMP_PATH $FEATURE_PATH
+    log "Mounting ${TEMP2_PATH} to ${FEATURE2_PATH}"
+    mount --bind $TEMP2_PATH $FEATURE2_PATH
 }
 
 # Run these in order
