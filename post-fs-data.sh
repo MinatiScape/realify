@@ -47,7 +47,7 @@ check_realmeui_ver()
         exit 1
     fi
     log "Detected realmeUI Version: ${RUI_VER}"
-    log "Target file: ${FEATURE_PATH} ${FEATURE@_PATH}"
+    log "Target file: ${FEATURE_PATH} ${FEATURE2_PATH}"
 }
 
 prepare_feature_list() 
