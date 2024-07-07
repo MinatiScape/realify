@@ -4,6 +4,7 @@
 PRJ_NAME=$(getprop ro.oplus.image.my_product.type)
 RUI_VER=$(getprop ro.build.version.realmeui)
 TEMP_PATH="/cache/feature.xml"
+TEMP2_PATH="/cache/feature2.xml"
 LOG_PATH="/cache/realify.log"
 
 # Functions 
@@ -21,7 +22,12 @@ remove_feature()
 {
     log "Removing feature: ${1}"
     sed -i "/${1}/d" $TEMP_PATH
+    
+    if [[ -e "$FEATURE2_PATH" ]]; then
+        sed -i "/${1}/d" $TEMP2_PATH
+    fi
 }
+
 
 check_realmeui_ver()
 {
@@ -31,6 +37,7 @@ check_realmeui_ver()
         FEATURE_PATH="/my_product/etc/extension/realme_product_rom_extend_feature_${PRJ_NAME}.xml"
     elif [[ $RUI_VER == V4.0 ]]; then
         FEATURE_PATH="/my_product/etc/extension/feature_com.coloros.oppoguardelf.xml"
+        FEATURE2_PATH="/my_product/extension/appfeature_liteos.xml"
     elif [[ $RUI_VER == V3.0 ]]; then
         FEATURE_PATH="/my_product/etc/extension/realme_product_rom_extend_feature_${PRJ_NAME}.xml"
     elif [[ $RUI_VER == V1.0 ]]; then
@@ -45,12 +52,16 @@ check_realmeui_ver()
 
 prepare_feature_list() 
 {
-    # Check if the file exists
-    if [[ -e "$FEATURE_PATH" ]]; then
-        # Start by copying for modification
-        cp $FEATURE_PATH $TEMP_PATH
+    # Check if either of the files exists
+    if [[ -e "$FEATURE_PATH" || -e "$FEATURE2_PATH" ]]; then
+        if [[ -e "$FEATURE_PATH" ]]; then
+            cp $FEATURE_PATH $TEMP_PATH
+        fi
+        if [[ -e "$FEATURE2_PATH" ]]; then
+            cp $FEATURE2_PATH $TEMP2_PATH
+        fi
     else
-        log "${FEATURE_PATH} does not exist, exiting!"
+        log "${FEATURE_PATH} or ${FEATURE2_PATH} do not exist, exiting!"
         exit 1
     fi
 }
