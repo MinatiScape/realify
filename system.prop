@@ -1,2 +1,8 @@
 ro.boot.vendor.overlay.static=false
 ro.surface_flinger.supports_background_blur=1
+ro.surface_flinger.supports_background_blur=1
+ro.surface_flinger.media_panel_bg_blur=1
+persist.sys.oplus.anim_level=1
+ro.oplus.gaussianlevel=1
+ro.launcher.blur.appLaunch=1
+vendor.display.enable_rounded_corner=1
